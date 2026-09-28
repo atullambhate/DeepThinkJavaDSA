@@ -1,4 +1,4 @@
-package basic_logics_programs;
+package basics_logiccal_programs;
 
 import java.util.Scanner;
 public class AdditionOfTwoNumbers {
