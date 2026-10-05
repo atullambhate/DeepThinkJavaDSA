@@ -27,6 +27,7 @@ public class Valid_Palindrome {
                 c >= 'a' && c <= 'z' ||
                 c >= '0' && c <= '9');
     }
+
     public static void main(String[] args) {
         Valid_Palindrome solver = new Valid_Palindrome();
         Scanner scanner = new Scanner(System.in);
