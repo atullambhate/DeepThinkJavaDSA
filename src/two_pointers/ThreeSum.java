@@ -1,25 +1,52 @@
 package two_pointers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+
 public class ThreeSum {
 
-    public int[] twoSum(int[] numbers, int target) {
-        int left = 0;
-        int right = numbers.length - 1;
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
 
-        while (left < right) {
-            int currentSum = numbers[left] + numbers[right];
+        for (int i = 0; i < nums.length - 2; i++) {
+            // Skip duplicate fixed elements
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
 
-            if (currentSum == target) {
-                return new int[]{left + 1, right + 1};
-            } else if (currentSum < target) {
-                left++;
-            } else {
-                right--;
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    // Skip duplicates on the left
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+
+                    // Skip duplicates on the right
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
             }
         }
 
-        return new int[0];
+        return result;
     }
 
     public static void main(String[] args) {
@@ -29,20 +56,16 @@ public class ThreeSum {
         System.out.println("Enter the size of the Array:");
         int size = Integer.parseInt(scanner.nextLine().trim());
 
-        int[] numbers = new int[size];
+        int[] nums = new int[size];
 
-        System.out.println("Enter the elements in Array (space-separated, sorted):");
+        System.out.println("Enter the elements in Array (space-separated):");
         String[] parts = scanner.nextLine().trim().split("\\s+");
         for (int i = 0; i < size; i++) {
-            numbers[i] = Integer.parseInt(parts[i]);
+            nums[i] = Integer.parseInt(parts[i]);
         }
 
-        System.out.println("Enter the target:");
-        int target = Integer.parseInt(scanner.nextLine().trim());
-
-        int[] result = solver.twoSum(numbers, target);
-
-        System.out.println("Indices (1-indexed): [" + result[0] + ", " + result[1] + "]");
+        List<List<Integer>> result = solver.threeSum(nums);
+        System.out.println("Triplets that sum to zero: " + result);
 
         scanner.close();
     }
